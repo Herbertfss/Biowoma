@@ -36,6 +36,39 @@ document.addEventListener('DOMContentLoaded', function() {
     if ('querySelector' in document && 'addEventListener' in window) {
         console.log('✅ Navegador compatível com recursos modernos');
     }
+    
+    // Toggle menu mobile
+    const navToggle = document.querySelector('.nav__toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const navLinks = document.querySelectorAll('.nav__link');
+    
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function() {
+            const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+            navToggle.setAttribute('aria-expanded', !isExpanded);
+            navMenu.classList.toggle('nav__menu--open');
+        });
+        
+        // Fechar menu ao clicar em um link
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navToggle.setAttribute('aria-expanded', 'false');
+                navMenu.classList.remove('nav__menu--open');
+            });
+        });
+    }
+    
+    // Botão voltar ao topo
+    const backToTopBtn = document.getElementById('backToTop');
+    if (backToTopBtn) {
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.display = 'inline-flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+    }
 });
 
 // Função simples para simular upload de imagem
@@ -46,4 +79,22 @@ function simulateImageUpload() {
 // Função para simular diagnóstico
 function simulateDiagnosis() {
     alert('Diagnóstico inteligente em desenvolvimento... 🔍');
+}
+
+// Função para lidar com upload de imagem
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+        simulateImageUpload();
+        // Reset do input para permitir upload do mesmo arquivo novamente
+        event.target.value = '';
+    }
+}
+
+// Função para scroll suave ao topo
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 }
