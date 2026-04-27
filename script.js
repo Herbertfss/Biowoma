@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
             card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
+            // Adiciona classe para animação de entrada (mantém compatibilidade)
+            card.classList.add('animate-in');
         }, 200 + (index * 100));
     });
     

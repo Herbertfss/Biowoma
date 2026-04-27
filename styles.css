@@ -1,109 +1,764 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ==========================================================================
+   Biowoma - Guia Inteligente de Botânica
+   CSS Refatorado Completo
+   Tema: Botânica com tons de verde
+   ========================================================================== */
+
+/* ==========================================================================
+   1. RESET MODERNO & BOX-SIZING
+   ========================================================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+html {
+  font-size: 16px; /* Base: 16px */
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   2. VARIÁVEIS CSS - CORES, ESPAÇAMENTOS, SOMBRAS, BORDAS
+   ========================================================================== */
+:root {
+  /* Cores principais */
+  --cor-primaria: #2e7d32;
+  --cor-primaria-escura: #1b5e20;
+  --cor-destaque: #ffa000;
+  --cor-fundo: #f0f4f0;
+  --cor-fundo-claro: #ffffff;
+  --cor-texto: #1a1a1a;
+  --cor-texto-secundario: #4a4a4a;
+  --cor-texto-terciario: #6b6b6b;
+  --cor-borda: #d0d8d0;
+  --cor-sombra: rgba(46, 125, 50, 0.15);
+  --cor-sombra-forte: rgba(27, 94, 32, 0.25);
+  
+  /* Gradientes */
+  --gradiente-header: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-primaria-escura) 100%);
+  --gradiente-card: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,244,240,0.95) 100%);
+  
+  /* Tipografia */
+  --fonte-titulos: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --fonte-corpo: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --tamanho-base: 1rem;    /* 16px */
+  --escala: 1.25;
+  --altura-linha: 1.6;
+  
+  /* Espaçamentos - sistema de 8px */
+  --espaco-xxs: 0.25rem;   /* 4px */
+  --espaco-xs: 0.5rem;     /* 8px */
+  --espaco-s: 0.75rem;     /* 12px */
+  --espaco-m: 1rem;        /* 16px */
+  --espaco-l: 1.5rem;      /* 24px */
+  --espaco-xl: 2rem;       /* 32px */
+  --espaco-xxl: 3rem;      /* 48px */
+  --espaco-xxxl: 4rem;     /* 64px */
+  
+  /* Bordas */
+  --borda-radius-s: 0.5rem;   /* 8px */
+  --borda-radius-m: 0.75rem;  /* 12px */
+  --borda-radius-l: 1rem;     /* 16px */
+  --borda-radius-xl: 1.5rem;  /* 24px */
+  
+  /* Sombras */
+  --sombra-s: 0 2px 4px rgba(0,0,0,0.08);
+  --sombra-m: 0 4px 12px var(--cor-sombra);
+  --sombra-l: 0 8px 24px var(--cor-sombra);
+  --sombra-xl: 0 16px 40px var(--cor-sombra-forte);
+  --sombra-glass: 0 8px 32px rgba(0,0,0,0.12);
+  
+  /* Transições */
+  --transicao-rapida: 0.15s ease;
+  --transicao-media: 0.3s ease;
+  --transicao-lenta: 0.5s ease;
+  
+  /* Z-index */
+  --z-header: 100;
+  --z-card: 1;
+  --z-overlay: 200;
+}
+
+/* ==========================================================================
+   3. ESTILOS BASE - CORPO E TIPOGRAFIA
+   ========================================================================== */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: #2c3e50;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
+  font-family: var(--fonte-corpo);
+  font-size: var(--tamanho-base);
+  line-height: var(--altura-linha);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-header {
-    background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
-    color: white;
-    text-align: center;
-    padding: 3rem 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* ==========================================================================
+   4. UTILITÁRIOS - CONTAINER, FLEX, GRID, ESPAÇAMENTOS
+   ========================================================================== */
+
+/* Container responsivo */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--espaco-m);
 }
 
-header h1 {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
+@media (min-width: 640px) {
+  .container {
+    padding: 0 var(--espaco-l);
+  }
 }
 
-header p {
-    font-size: 1.2rem;
-    opacity: 0.9;
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 var(--espaco-xl);
+  }
 }
 
-main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+/* Flexbox utilitários */
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-row {
+  flex-direction: row;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.items-start {
+  align-items: flex-start;
+}
+.items-center {
+  align-items: center;
+}
+.items-end {
+  align-items: flex-end;
+}
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
 }
 
+/* Grid utilitários */
+.grid {
+  display: grid;
+}
+.grid-cols-1 {
+  grid-template-columns: 1fr;
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Espaçamentos - Margin e Padding */
+.m-0 { margin: 0; }
+.m-auto { margin: auto; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+.m-xs { margin: var(--espaco-xs); }
+.m-s { margin: var(--espaco-s); }
+.m-m { margin: var(--espaco-m); }
+.m-l { margin: var(--espaco-l); }
+.m-xl { margin: var(--espaco-xl); }
+
+.my-xs { margin-top: var(--espaco-xs); margin-bottom: var(--espaco-xs); }
+.my-s { margin-top: var(--espaco-s); margin-bottom: var(--espaco-s); }
+.my-m { margin-top: var(--espaco-m); margin-bottom: var(--espaco-m); }
+.my-l { margin-top: var(--espaco-l); margin-bottom: var(--espaco-l); }
+.my-xl { margin-top: var(--espaco-xl); margin-bottom: var(--espaco-xl); }
+
+.p-0 { padding: 0; }
+.p-xs { padding: var(--espaco-xs); }
+.p-s { padding: var(--espaco-s); }
+.p-m { padding: var(--espaco-m); }
+.p-l { padding: var(--espaco-l); }
+.p-xl { padding: var(--espaco-xl); }
+
+/* Texto utilitários */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.text-primary { color: var(--cor-primaria); }
+.text-secondary { color: var(--cor-primaria-escura); }
+.text-highlight { color: var(--cor-destaque); }
+.text-muted { color: var(--cor-texto-terciario); }
+
+/* Visibilidade e acessibilidade */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   5. HEADER - GRADIENTE E WAVE SVG
+   ========================================================================== */
+.header {
+  background: var(--gradiente-header);
+  color: var(--cor-fundo-claro);
+  text-align: center;
+  padding: var(--espaco-xxl) var(--espaco-m) calc(var(--espaco-xxl) + 2rem);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--sombra-l);
+}
+
+/* Wave SVG decorativa */
+.header-wave {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  fill: var(--cor-fundo);
+  z-index: 1;
+}
+
+.header-wave path {
+  fill: var(--cor-fundo);
+}
+
+/* Conteúdo do header */
+.header__content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header__title {
+  font-family: var(--fonte-titulos);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: var(--espaco-s);
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.header__subtitle {
+  font-family: var(--fonte-corpo);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 400;
+  opacity: 0.95;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   6. MAIN - LAYOUT PRINCIPAL
+   ========================================================================== */
+.main {
+  padding: var(--espaco-xl) var(--espaco-m) var(--espaco-xxl);
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   7. FEATURE CARDS - GLASSMORPHISM E HOVER
+   ========================================================================== */
 .features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--espaco-l);
+  margin-bottom: var(--espaco-xxl);
 }
 
+@media (min-width: 640px) {
+  .features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .features {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Card com glassmorphism */
 .feature-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: var(--gradiente-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: var(--espaco-xl);
+  border-radius: var(--borda-radius-l);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: var(--sombra-m);
+  transition: transform var(--transicao-media), box-shadow var(--transicao-media), border-color var(--transicao-media);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Animação de entrada dos cards */
+.feature-card.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Efeito de brilho no hover */
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+  pointer-events: none;
 }
 
 .feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+  box-shadow: var(--sombra-xl);
+  border-color: var(--cor-primaria);
 }
 
-.feature-card h2 {
-    color: #2e7d32;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
+.feature-card:hover::before {
+  left: 100%;
 }
 
-.feature-card p {
-    color: #666;
-    line-height: 1.6;
+/* Conteúdo do card */
+.feature-card__icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--espaco-m);
+  display: block;
 }
 
+.feature-card__title {
+  font-family: var(--fonte-titulos);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--cor-primaria-escura);
+  margin-bottom: var(--espaco-s);
+  line-height: 1.3;
+}
+
+.feature-card__description {
+  font-family: var(--fonte-corpo);
+  font-size: 0.9375rem;
+  color: var(--cor-texto-terciario);
+  line-height: 1.6;
+}
+
+/* Efeito de clique nos cards (mantém compatibilidade com script.js) */
+.feature-card:active {
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   8. CTA SECTION
+   ========================================================================== */
 .cta {
-    background: white;
-    padding: 3rem 2rem;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: var(--gradiente-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: var(--espaco-xxl) var(--espaco-l);
+  border-radius: var(--borda-radius-l);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: var(--sombra-m);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.cta h2 {
-    color: #2e7d32;
-    margin-bottom: 1rem;
-    font-size: 2rem;
+.cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cor-primaria), var(--cor-destaque), var(--cor-primaria));
+  background-size: 200% 100%;
+  animation: gradientMove 3s ease infinite;
 }
 
-.cta p {
-    color: #666;
-    font-size: 1.1rem;
+@keyframes gradientMove {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
-footer {
-    background: #2c3e50;
-    color: white;
-    text-align: center;
-    padding: 2rem 1rem;
-    margin-top: 3rem;
+.cta__title {
+  font-family: var(--fonte-titulos);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  color: var(--cor-primaria-escura);
+  margin-bottom: var(--espaco-m);
+  line-height: 1.3;
 }
 
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2rem;
+.cta__description {
+  font-family: var(--fonte-corpo);
+  font-size: 1rem;
+  color: var(--cor-texto-terciario);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   9. FOOTER
+   ========================================================================== */
+.footer {
+  background: var(--cor-primaria-escura);
+  color: var(--cor-fundo-claro);
+  text-align: center;
+  padding: var(--espaco-xl) var(--espaco-m);
+  margin-top: var(--espaco-xxl);
+}
+
+.footer__text {
+  font-family: var(--fonte-corpo);
+  font-size: 0.875rem;
+  opacity: 0.85;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   10. BOTÕES - CLASSES .btn E .btn-primary
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-xs);
+  font-family: var(--fonte-titulos);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  padding: var(--espaco-s) var(--espaco-l);
+  border-radius: var(--borda-radius-m);
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all var(--transicao-media);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:focus {
+  outline: 3px solid var(--cor-destaque);
+  outline-offset: 2px;
+}
+
+.btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--cor-destaque);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Botão primário */
+.btn-primary {
+  background: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-primaria-escura) 100%);
+  color: var(--cor-fundo-claro);
+  border-color: var(--cor-primaria);
+  box-shadow: var(--sombra-m);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #388e3c 0%, var(--cor-primaria) 100%);
+  box-shadow: var(--sombra-l);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--sombra-m);
+}
+
+/* Botão secundário */
+.btn-secondary {
+  background: transparent;
+  color: var(--cor-primaria);
+  border-color: var(--cor-primaria);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--cor-primaria);
+  color: var(--cor-fundo-claro);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-m);
+}
+
+/* Botão de destaque */
+.btn-highlight {
+  background: linear-gradient(135deg, var(--cor-destaque) 0%, #ff8f00 100%);
+  color: var(--cor-texto);
+  border-color: var(--cor-destaque);
+  box-shadow: var(--sombra-m);
+}
+
+.btn-highlight:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ffb300 0%, var(--cor-destaque) 100%);
+  box-shadow: var(--sombra-l);
+  transform: translateY(-2px);
+}
+
+/* Botão pequeno */
+.btn-sm {
+  font-size: 0.75rem;
+  padding: var(--espaco-xs) var(--espaco-m);
+}
+
+/* Botão grande */
+.btn-lg {
+  font-size: 1rem;
+  padding: var(--espaco-m) var(--espaco-xl);
+}
+
+/* Botão bloco (full width) */
+.btn-block {
+  width: 100%;
+}
+
+/* ==========================================================================
+   11. BREAKPOINTS RESPONSIVOS - MOBILE FIRST
+   ========================================================================== */
+
+/* Extra small devices (>= 640px) */
+@media (min-width: 640px) {
+  .header {
+    padding: var(--espaco-xxxl) var(--espaco-l) calc(var(--espaco-xxxl) + 2rem);
+  }
+  
+  .main {
+    padding: var(--espaco-xxl) var(--espaco-l) var(--espaco-xxxl);
+  }
+  
+  .feature-card {
+    padding: var(--espaco-xxl);
+  }
+  
+  .cta {
+    padding: var(--espaco-xxxl) var(--espaco-xl);
+  }
+}
+
+/* Small devices (>= 768px) */
+@media (min-width: 768px) {
+  .header__content {
+    padding: 0 var(--espaco-l);
+  }
+  
+  .features {
+    gap: var(--espaco-xl);
+  }
+  
+  .feature-card__icon {
+    font-size: 3rem;
+  }
+  
+  .feature-card__title {
+    font-size: 1.375rem;
+  }
+}
+
+/* Medium devices (>= 1024px) */
+@media (min-width: 1024px) {
+  .header {
+    padding: var(--espaco-xxxl) var(--espaco-xl) calc(var(--espaco-xxxl) + 3rem);
+  }
+  
+  .main {
+    padding: var(--espaco-xxxl) var(--espaco-xl) calc(var(--espaco-xxxl) + 2rem);
+  }
+  
+  .features {
+    gap: var(--espaco-xxl);
+  }
+  
+  .feature-card {
+    padding: calc(var(--espaco-xxl) + var(--espaco-s));
+  }
+  
+  .feature-card__icon {
+    font-size: 3.5rem;
+  }
+  
+  .cta {
+    padding: calc(var(--espaco-xxxl) + var(--espaco-m)) var(--espaco-xxl);
+  }
+}
+
+/* Large devices (>= 1280px) */
+@media (min-width: 1280px) {
+  .header {
+    padding: calc(var(--espaco-xxxl) + var(--espaco-m)) var(--espaco-xxl) calc(var(--espaco-xxxl) + 4rem);
+  }
+  
+  .main {
+    padding: var(--espaco-xxxl) var(--espaco-xxl) calc(var(--espaco-xxxl) + 3rem);
+  }
+  
+  .features {
+    gap: var(--espaco-xxl);
+  }
+}
+
+/* ==========================================================================
+   12. ACESSIBILIDADE - FOCUS STATES E CONTRASTE
+   ========================================================================== */
+
+/* Estados de foco visíveis */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--cor-destaque);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(255, 160, 0, 0.3);
+}
+
+/* Navegação por teclado */
+:focus {
+  outline-offset: 2px;
+}
+
+/* Alto contraste para usuários que preferem */
+@media (prefers-contrast: high) {
+  :root {
+    --cor-texto: #000000;
+    --cor-texto-secundario: #1a1a1a;
+    --cor-texto-terciario: #333333;
+    --cor-borda: #000000;
+  }
+  
+  .feature-card {
+    border: 2px solid var(--cor-borda);
+  }
+  
+  .btn {
+    border-width: 3px;
+  }
+}
+
+/* Tamanho de texto maior */
+@media (prefers-reduced-motion: no-preference) {
+  @media (min-width: 320px) {
+    html {
+      font-size: 100%;
     }
-    
-    .features {
-        grid-template-columns: 1fr;
-    }
-    
-    .cta h2 {
-        font-size: 1.5rem;
-    }
+  }
+}
+
+/* ==========================================================================
+   13. ANIMAÇÕES SUAVES
+   ========================================================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Animação para cards ao entrar na viewport */
+.feature-card.animate-on-scroll {
+  animation: fadeInUp var(--transicao-lenta) ease forwards;
+}
+
+/* ==========================================================================
+   14. COMPATIBILIDADE COM SCRIPT.JS EXISTENTE
+   ========================================================================== */
+
+/* As transições inline do script.js são preservadas */
+.feature-card[style*="transition"] {
+  transition: opacity var(--transicao-lenta), transform var(--transicao-lenta) !important;
+}
+
+/* O efeito de clique do script.js é mantido */
+.feature-card[style*="scale(0.98)"] {
+  transform: scale(0.98) !important;
+}
+
+/* ==========================================================================
+   15. ESTILOS DE IMPRESSÃO
+   ========================================================================== */
+@media print {
+  .header {
+    background: #2e7d32 !important;
+    color: white !important;
+    box-shadow: none;
+  }
+  
+  .feature-card {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+  
+  .btn {
+    display: none;
+  }
+  
+  * {
+    color: black !important;
+    background: white !important;
+  }
 }
